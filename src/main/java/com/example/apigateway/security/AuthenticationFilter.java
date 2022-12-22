@@ -17,6 +17,7 @@ import org.springframework.util.SerializationUtils;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -60,11 +61,15 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 
                     byte[] bytes = SerializationUtils.serialize(error);
 
-                    DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(bytes);
-                    response.writeWith(Flux.just(buffer));
+//                    DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(bytes);
+//                    response.writeWith(Flux.just(buffer));
                     response.setStatusCode(HttpStatus.UNAUTHORIZED);
-
-                    return response.setComplete();
+//                    response.getHeaders().add("Content-Type", "application/json");
+                    response.setStatusCode(HttpStatus.BAD_GATEWAY);
+                    byte[] response1 =  "{\"status\":\"erroe\",\"message\":\"error happen\"}".getBytes(StandardCharsets.UTF_8);;
+                    DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(response1);
+                    return response.writeWith(Flux.just(buffer));
+//                    return response.setComplete();
                 }
             }
 

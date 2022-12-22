@@ -20,5 +20,5 @@ logging:
     '[org.springframework.cloud.gateway]': TRACE
 jwt:
   secret: testing
-  validity: 1
+  validity: 20
   authDisabled: false
