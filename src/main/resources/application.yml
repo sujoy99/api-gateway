@@ -1,0 +1,24 @@
+server:
+  port: 9999
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      default-filters:
+        - name: AuthenticationFilter
+      routes:
+        - id: employeeModule
+          uri: http://localhost:8081/
+          predicates:
+            - Path=/api/v1/employee/**
+#          filters:
+#            - CustomFilter
+logging:
+  level:
+    '[org.springframework.cloud.gateway]': TRACE
+jwt:
+  secret: testing
+  validity: 1
+  authDisabled: false
